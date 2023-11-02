@@ -1,0 +1,126 @@
+{% extends "djclient/base.html" %}
+{% load static %}
+
+{% block script %}
+    <script src="{% static 'djclient/actions.js' %}"></script>
+{% endblock script %}
+
+
+{% block main %}
+
+<main style="display:flex; flex-direction:column:">
+
+    <div style='width:50%'>
+        <h1>Custom Client for apis</h1>
+        
+        {{user.username}}
+        <a href="{% url 'logout_client' %}">Logout</a>
+
+        <section>
+            <h2>Get</h2>
+
+            {% comment %} get all {% endcomment %}
+            <h3>Get all the results</h3>
+            <button id='get-all'>Get</button>
+
+            <hr>
+            <br>
+
+            {% comment %} get one {% endcomment %}
+            <form id="get-one" action="">
+                <input type="numeric" name="pk">
+                <br>
+                
+                <button>Get this Product</button>
+            </form>
+
+        </section>
+        
+        {% comment %} post {% endcomment %}
+        <section>
+            <h2>Post</h2>
+            <form  id="post" action="{% url 'get_list_create_product' %}" method='post'>
+                {% csrf_token %}
+                <label for="title">Title</label>
+                <br>
+
+                <input id='title' name='title' type="text">
+                <br>
+
+                <label for="content">Content</label>
+                <br>
+
+                <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                <br>
+
+                <label for="price">Price</label>
+                <br>
+
+                <input type="numeric" name='price' id='price'>
+                <br>
+
+                <button>Post</button>
+            </form>
+        </section>
+
+
+        <br>
+
+        {% comment %} put {% endcomment %}
+        <section>
+            <h2>Put</h2>
+            <form id="put" action="{% url 'get_list_create_product' %}">
+                {% csrf_token %}
+
+                <label for="title">Product id</label>
+                <br>
+                <input type="numeric" name='pk' id='pk'>
+                <br>
+
+                <label for="title">Title</label>
+                <br>
+
+                <input id='title' name='title' type="text">
+                <br>
+
+                <label for="content">Content</label>
+                <br>
+
+                <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                <br>
+
+                <label for="price">Price</label>
+                <br>
+
+                <input type="numeric" name='price' id='price'>
+                <br>
+
+                <button>Put</button>
+            </form>
+            
+        </section>
+
+        {% comment %} delete {% endcomment %}
+        <section>
+            <h2>Delete</h2>
+            <form id="delete" action="">
+                {% csrf_token %}
+
+                <label for="title">Product id</label>
+
+                <input type="numeric" name='pk' id='pk'>
+                <button>Delete</button>
+            </form>
+            
+        </section>
+
+
+    </div>
+
+    <section id='results' style="width:50%;" id='results'>
+        <h3>Results</h3>
+    </section>
+</main>
+    {% endblock main %}
+
+    
