@@ -3,11 +3,14 @@ from rest_framework import mixins
 
 from .models import Product
 from .serializers import ProductSerializer
+from api.mixins import CustomDajngoModelPermissionMixin 
 
-class ProductListCreateAPIView(generics.ListCreateAPIView):
+                               
+class ProductListCreateAPIView(CustomDajngoModelPermissionMixin
+                               ,generics.ListCreateAPIView):
+    
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.SessionAuthentication]
 
     def perform_create(self, serializer):
@@ -20,11 +23,12 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 
 
 
-class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+class ProductDetail(CustomDajngoModelPermissionMixin,
+                    generics.RetrieveUpdateDestroyAPIView):
+    
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.SessionAuthentication]
 
 
