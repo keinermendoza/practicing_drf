@@ -12,3 +12,8 @@ class ProductSerializer(serializers.ModelSerializer):
             return None
         else:
             return instance.get_discount()
+        
+    def validate_price(self, value):
+        value = 10
+        print(value)
+        return value

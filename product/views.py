@@ -11,8 +11,7 @@ class ProductListCreateAPIView(CustomDajngoModelPermissionMixin
     
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.SessionAuthentication]
-
+    # authentication_classes = [authentication.SessionAuthentication]
     def perform_create(self, serializer):
         title = serializer.validated_data.get('title')
         content = serializer.validated_data.get('content')
@@ -29,7 +28,7 @@ class ProductDetail(CustomDajngoModelPermissionMixin,
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    authentication_classes = [authentication.SessionAuthentication]
+    # authentication_classes = [authentication.SessionAuthentication]
 
 
     def perform_update(self, serializer):

@@ -1,6 +1,27 @@
 import requests
 import json
 from sys import argv, exit
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+auth_endpoint = 'http://localhost:8000/api/v1/auth/' 
+
+credentials = {
+    'username': os.environ.get('username'),
+    'password': os.environ.get('password'),
+}
+
+auth_response = requests.post(auth_endpoint, credentials)
+if auth_response.status_code != 200:
+    exit('invalid credentials')
+
+token = auth_response.json()['token']
+
+headers = {
+    'Authorization': f"Bearer {token}"
+}
+
 
 '''THIS program is client for the drf api it takes 3 arguments
     1. client.py
@@ -18,6 +39,8 @@ def get_id(id):
     except:
         exit(f'id: {id} is not a valid integer')
 
+
+
 # body of programm 
 if len(argv) == 2:
     endpoint = 'http://localhost:8000/api/v1/products/'
@@ -25,13 +48,13 @@ if len(argv) == 2:
     # for handle ListView
     if argv[1] == 'get':
 
-        response = requests.get(endpoint)
+        response = requests.get(endpoint, headers=headers)
 
     # for create
     elif argv[1] == 'post':
         title = input('title: ')
         content= input('content: ')
-        response = requests.post(endpoint, json={'title':title, 'content':content})
+        response = requests.post(endpoint, json={'title':title, 'content':content}, headers=headers)
 
     else:
         exit(f'{argv[1]} is an invalid method')
@@ -42,16 +65,16 @@ elif len(argv) == 3:
     endpoint = f'http://localhost:8000/api/v1/products/{product_id}'
     
     if argv[1] == 'get':
-        response = requests.get(endpoint)
+        response = requests.get(endpoint, headers=headers)
 
     elif argv[1] == 'put':
         title = input('title: ')
         content = input('content: ')
 
-        response = requests.put(endpoint, json={'title':title, 'content':content})
+        response = requests.put(endpoint, json={'title':title, 'content':content}, headers=headers)
         
     elif argv[1] == 'delete':
-        response = requests.delete(endpoint)
+        response = requests.delete(endpoint, headers=headers)
         
     else:
         exit(f'{argv[1]} is an invalid method')

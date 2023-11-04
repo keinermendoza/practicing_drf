@@ -54,17 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
 function fetchPostAndPut(url, form, parent, product_id=null) {
     
     const finalUrl = product_id ? url + product_id : url;
+    
+    // if price exists add to body
+    let body = form.content.price ? JSON.stringify({price: form.content.price}) : ''
+
+    body += JSON.stringify({
+        title: form.title.value,
+        content: form.content.value ? form.content.value : '',
+    })
+    console.log(body)
+
     fetch(finalUrl, {
         method: product_id ? 'PUT': 'POST',
         headers: {
             'X-CSRFToken': form.csrfmiddlewaretoken.value,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            title: form.title.value,
-            content: form.content.value,
-            price: form.price.value,   
-        }),
+        body:body,
     })
     .then(res => res.json())
     .then(data => parent.innerHTML = JSON.stringify(data))    

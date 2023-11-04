@@ -22,5 +22,7 @@ urlpatterns = [
     path('', include('djclient.urls')),
     path('api/v1/', include('api.urls')),
     path('api/v1/products/', include('product.urls')),
+    path('api/v2/', include('config.routers')),
+
 
 ]
